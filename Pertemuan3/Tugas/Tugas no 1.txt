@@ -1,0 +1,28 @@
+Cara kerja Kode Lengan Bergerak:
+Kode tersebut terdiri dari dua bagian, yaitu lengan atas (shoulder) dan lengan bawah (elbow) yang dibuat menggunakan OpenGL dengan konsep transformasi matriks.
+static int shoulder = 0, elbow = 0;  
+Program diawali dengan inisialisasi warna latar belakang hitam dan shading sederhana.
+glClearColor (0.0, 0.0, 0.0, 0.0);
+glShadeModel (GL_FLAT);  
+Pada fungsi display, layar dibersihkan terlebih dahulu lalu sistem mulai melakukan transformasi untuk membentuk lengan.
+glClear (GL_COLOR_BUFFER_BIT);  
+glPushMatrix();  
+Objek pertama digeser ke kiri untuk menentukan posisi awal sebagai titik bahu, kemudian diputar sesuai nilai variabel shoulder sehingga seluruh bagian setelahnya ikut berputar.
+glTranslatef (-1.0, 0.0, 0.0);
+glRotatef(shoulder, 0.0, 0.0, 1.0); 
+Setelah itu, sebuah kubus diskalakan menjadi persegi panjang untuk merepresentasikan lengan atas.
+glTranslatef (1.0, 0.0, 0.0);
+glPushMatrix();
+glScalef (2.0, 0.4, 1.0);
+glutWireCube (1.0);
+glPopMatrix();
+Selanjutnya, posisi digeser ke ujung lengan atas untuk menjadi titik siku, lalu dilakukan rotasi kedua berdasarkan variabel elbow, yang hanya mempengaruhi bagian setelahnya. 
+glTranslatef (1.0, 0.0, 0.0);
+glRotatef(elbow, 0.0, 0.0, 1.0);
+Kemudian digambar lengan bawah dengan cara yang sama, yaitu menggeser posisi dan menskalakan kubus. 
+glTranslatef (1.0, 0.0, 0.0);
+glPushMatrix();
+glScalef (2.0, 0.4, 1.0);
+glutWireCube (1.0);
+glPopMatrix();
+Seluruh proses ini menggunakan konsep hierarchical modeling, di mana pergerakan bahu akan mempengaruhi siku, tetapi tidak sebaliknya. Fungsi reshape digunakan untuk mengatur tampilan perspektif dan posisi kamera agar objek terlihat, sedangkan fungsi keyboard memungkinkan pengguna mengontrol sudut bahu dan siku menggunakan tombol tertentu, sehingga lengan dapat digerakkan secara interaktif.
